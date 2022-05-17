@@ -47,25 +47,52 @@
   )
 
 (define (skoczek n)
-  (cond[(< 4 n) "Nie ma takiej drogi aby skoczek odwiedził wszystkie pola"]
-       [#t (szachownica n 0)])
+  (cond[(> 4 n) "Nie ma takiej drogi aby skoczek odwiedził wszystkie pola"]
+       [#t (silnik 0 (szachownica n 0) 0 0 n)])
   )
+;;Wymaga poprawki ale jestem juz blisko
 (define (silnik nr-skoku szachownica x y n)
   (cond [(eq? nr-skoku (* n n)) (list x y)]
         [(and (can-move n x y 2 1)
-              (not (get-place (+ x 2)(+ y 1) szachownica) 0 0))]
+              (not (get-place (+ x 2)(+ y 1) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x 2)(+ y 1) szachownica #t n 0)
+                 (+ x 2)(+ y 1) n)]
         [(and (can-move n x y 2 -1)
-              () )]
+              (not (get-place (+ x 2)(+ y -1) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x 2)(+ y -1) szachownica #t n 0)
+                 (+ x 2)(+ y -1) n)]
         [(and (can-move n x y -2 1)
-              (not (get-place (+ x -2)(+ y 1) szachownica) 0 0))]
+              (not (get-place (+ x -2)(+ y 1) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x -2)(+ y 1) szachownica #t n 0)
+                 (+ x 2)(+ y 1) n)]
         [(and (can-move n x y -2 -1)
-              (not (get-place (+ x -2)(+ y -1) szachownica) 0 0))]
+              (not (get-place (+ x -2)(+ y -1) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x -2)(+ y -1) szachownica #t n 0)
+                 (+ x 2)(+ y 1) n)]
         [(and (can-move n x y 1 2)
-              (not (get-place (+ x 1)(+ y 2) szachownica) 0 0))]
+              (not (get-place (+ x 1)(+ y 2) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x 1)(+ y 2) szachownica #t n 0)
+                 (+ x 1)(+ y 2) n)]
         [(and (can-move n x y 1 -2)
-              (not (get-place (+ x 1)(+ y -2) szachownica) 0 0))]
+              (not (get-place (+ x 1)(+ y -2) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x 1)(+ y -2) szachownica #t n 0)
+                 (+ x 1)(+ y -2) n)]
         [(and (can-move n x y -1 2)
-              (not (get-place (+ x -1)(+ y 2) szachownica) 0 0))]
+              (not (get-place (+ x -1)(+ y 2) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x -1)(+ y 2) szachownica #t n 0)
+                 (+ x -1)(+ y 2) n)]
         [(and (can-move n x y -1 -2)
-              (not (get-place (+ x -1)(+ y -2) szachownica) 0 0))])
+              (not (get-place (+ x -1)(+ y -2) szachownica 0 0)))
+         (silnik (+ 1 nr-skoku)
+                 (set-place (+ x -1)(+ y -2) szachownica #t n 0)
+                 (+ x -1)(+ y -2) n)]
+        [#t "AAAAA"]
+  )
   )
